@@ -15,8 +15,8 @@ namespace MVCSampleProject
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{Category_id}",
-                defaults: new { controller = "Products", action = "Index", Category_id = 1 }
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional}
             );
         }
     }

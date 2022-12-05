@@ -1,0 +1,15 @@
+﻿body {
+    box-sizing: border-box;
+    margin: 0;
+    text-align: center;
+}
+
+label{
+    display: inline-block;
+    width: 200px;
+    text-align: left;
+}
+
+.form-group{
+    margin-top: 10px;
+}

@@ -5,8 +5,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5caf24eb9f354732ab64707d333f85ba" Name="Diagram1">
-        <EntityTypeShape EntityType="ProductsFPTSModel.Category" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProductsFPTSModel.Product" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProductsFPTSModel.Category" Width="1.5" PointX="0.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProductsFPTSModel.Product" Width="1.5" PointX="3.625" PointY="0.5" IsExpanded="true" />
         <AssociationConnector Association="ProductsFPTSModel.product_category" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

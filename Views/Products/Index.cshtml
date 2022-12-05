@@ -20,13 +20,22 @@
     <div class="main_container">
         @* Category *@
         <div class="Category">
-            <p class = "category_btn">@Html.ActionLink("Home", "Index", new { Category_id = 1 })</p>
-            <p class = "category_btn">@Html.ActionLink("Accessories", "Index", new { Category_id = 2 })</p>
-            <p class = "category_btn">@Html.ActionLink("Desktop", "Index", new { Category_id = 3 })</p>
-            <p class = "category_btn">@Html.ActionLink("IP Phone", "Index", new { Category_id = 4 })</p>
-            <p class = "category_btn">@Html.ActionLink("Laptop", "Index", new { Category_id = 5 })</p>
-            <p class = "category_btn">@Html.ActionLink("Monitor", "Index", new { Category_id = 6 })</p>
-            <p class = "category_btn">@Html.ActionLink("Server", "Index", new { Category_id = 7 })</p>
+            <p class="category_btn">@Html.ActionLink("Home", "Index", new { Category_id = 1 })</p>
+            <p class="category_btn">@Html.ActionLink("Accessories", "Index", new { Category_id = 2 })</p>
+            <p class="category_btn">@Html.ActionLink("Desktop", "Index", new { Category_id = 3 })</p>
+            <p class="category_btn">@Html.ActionLink("IP Phone", "Index", new { Category_id = 4 })</p>
+            <p class="category_btn">@Html.ActionLink("Laptop", "Index", new { Category_id = 5 })</p>
+            <p class="category_btn">@Html.ActionLink("Monitor", "Index", new { Category_id = 6 })</p>
+            <p class="category_btn">@Html.ActionLink("Server", "Index", new { Category_id = 7 })</p>
+            <p class="category_btn">
+                            @Html.ActionLink(
+                            linkText: "Log Out",
+                            actionName: "Logout",
+                            controllerName: "Account",
+                            routeValues: null,
+                            htmlAttributes: new { @style = "color: red; font-weight: bold;" })
+            )</p>
+            
         </div>
 
         @* item *@

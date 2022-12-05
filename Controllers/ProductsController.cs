@@ -16,6 +16,12 @@ namespace MVCSampleProject.Controllers
         private ProductsFPTSEntities1 db = new ProductsFPTSEntities1();
 
         // GET: Products
+        public ActionResult Index()
+        {
+            var products = db.Products.Include(p => p.Category);
+            return View(products.ToList());
+        }
+        [HttpPost]
         public ActionResult Index(int Category_id)
         {
             var products = db.Products.Include(p => p.Category);
@@ -25,20 +31,6 @@ namespace MVCSampleProject.Controllers
             return View(products.ToList());
         }
 
-        // GET: Products/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Product product = db.Products.Find(id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-            return View(product);
-        }
 
         // GET: Products/Create
         public ActionResult Create()
@@ -74,7 +66,7 @@ namespace MVCSampleProject.Controllers
             return View(product);
         }
         // GET: Products/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
             if (id == null)
             {
@@ -107,7 +99,7 @@ namespace MVCSampleProject.Controllers
         }
 
         // GET: Products/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
             if (id == null)
             {
