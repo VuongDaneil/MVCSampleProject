@@ -6,12 +6,20 @@ using System.Web;
 using System.Web.Mvc;
 using MVCSampleProject.Models;
 using System.Security.Cryptography;
+using MVCSampleProject.Filters;
+using MVCSampleProject.Identity;
+using MVCSampleProject.common;
+
 namespace ProjectMVC5.Controllers
 {
+    
     public class AccountController : Controller
     {
-        private ProductsFPTSEntities1 _db = new ProductsFPTSEntities1();
+        public AppUser currentUser = new AppUser();
+
+        private ProductsFPTSEntities _db = new ProductsFPTSEntities();
         // GET: Account
+        //[MyAuthenFilter]
         public ActionResult Index()
         {
             if (Session["idUser"] != null)
@@ -25,12 +33,11 @@ namespace ProjectMVC5.Controllers
         }
 
         //GET: SignUp
-
         public ActionResult SignUp()
         {
+            ViewBag.RoleID = new SelectList(_db.UserRoles, "RoleID", "RoleName");
             return View();
         }
-
         //POST: SignUp
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -50,6 +57,7 @@ namespace ProjectMVC5.Controllers
                 else
                 {
                     ViewBag.error = "Username already exists";
+                    ViewBag.RoleID = new SelectList(_db.UserRoles, "RoleID", "RoleName");
                     return View();
                 }
                  
@@ -64,9 +72,6 @@ namespace ProjectMVC5.Controllers
         {
             return View();
         }
- 
- 
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(Account user)
@@ -77,10 +82,22 @@ namespace ProjectMVC5.Controllers
                 var data =_db.Accounts.Where(s => s.UserName.Equals(user.UserName) && s.UserPassword.Equals(f_password)).ToList();
                 if (data.Count() > 0)
                 {
+                    currentUser.UserName = data.FirstOrDefault().UserName;
+                    currentUser.Role = data.FirstOrDefault().UserRole.RoleName;
+                    //currentUser.isBlook = data.FirstOrDefault().isBlock;
                     //add session
-                    Session["Username"] = data.FirstOrDefault().UserName;
-                    Session["UserID"] = data.FirstOrDefault().UserID;
-                    return RedirectToAction("Index", "Products", new { area = "" });
+                    var userSession = new UserLogin();
+                    userSession.UserID = data.FirstOrDefault().UserID;
+                    userSession.UserName = data.FirstOrDefault().UserName;
+                    userSession.Role = data.FirstOrDefault().UserRole.RoleName;
+                    userSession.isBlock = data.FirstOrDefault().isBlock;
+                    Session.Add(CommonConstants.USER_SESSION, userSession);
+
+                    if (data.FirstOrDefault().RoleID == 1)
+                    {
+                        return RedirectToAction("Index", "Products", new { area = "Admin", id = 1 });
+                    }
+                    return RedirectToAction("Index", "Products", new { area = "",  id = 1 });
                 }
                 else
                 {
@@ -90,18 +107,21 @@ namespace ProjectMVC5.Controllers
             }
             return View();
         }
-         
- 
+
         //Logout
         public ActionResult Logout()
         {
             //reset session
             Session.Clear();
+            HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
  
- 
- 
+        //Blocked page
+        public ActionResult Blocked()
+        {
+            return View();
+        }
         //ma hoa MD5
         public static string toMD5(string str)
         {
@@ -119,5 +139,4 @@ namespace ProjectMVC5.Controllers
         }
         
     }
-}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              

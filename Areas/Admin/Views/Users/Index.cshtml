@@ -1,0 +1,33 @@
+﻿@model List<MVCSampleProject.Models.Account>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 style="text-align: center;">User</h2>
+<table class="table table-bordered w-auto m-auto">
+    <tr>
+        <th>User Name</th>
+        <th>Role</th>
+
+        <th>Status</th>
+    </tr>
+
+    @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>@item.UserRole.RoleName</td>
+                    @if(item.isBlock == 0)
+                    {
+                        <td class="fw-bold text-success" style="text-align: center;">Not Blocked</td>
+                        <td>@Html.ActionLink("Block", "BlockUser", "Users", new { area = "Admin", id = item.UserID }, new { @class = "btn btn-danger btn-sm glyphicon glyphicon-remove w-100" })</td>
+                    } else if (item.isBlock == 1)
+                    {
+                        <td class="fw-bold text-danger" style="text-align: center;">Blocked</td>
+                        <td>@Html.ActionLink("Unblock", "UnblockUser", "Users", new { area = "Admin", id = item.UserID }, new { @class = "btn btn-success btn-sm glyphicon glyphicon-remove w-100" })</td>
+                    }
+                    <td>@Html.ActionLink("Change Role", "ChangeRole", new { area = "Admin", id = item.UserID })</td>
+                </tr>
+            }
+</table>
+

@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<MVCSampleProject.Models.Product>
-
 @{
-    Layout = null;
+    ViewBag.Title = "Index";
 }
 
 <!DOCTYPE html>
@@ -9,41 +8,35 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <meta charset="utf-8" />
     <link href="@Url.Content("~/Style/IndexPage.css")" rel="stylesheet" type="text/css" />
-    <div class="header_bar">
-        &nbsp FPTS Inventory status
-    </div>
 </head>
 <body>
-    
     <div class="main_container">
         @* Category *@
         <div class="Category">
-            <p class="category_btn">@Html.ActionLink("Home", "Index", new { Category_id = 1 })</p>
-            <p class="category_btn">@Html.ActionLink("Accessories", "Index", new { Category_id = 2 })</p>
-            <p class="category_btn">@Html.ActionLink("Desktop", "Index", new { Category_id = 3 })</p>
-            <p class="category_btn">@Html.ActionLink("IP Phone", "Index", new { Category_id = 4 })</p>
-            <p class="category_btn">@Html.ActionLink("Laptop", "Index", new { Category_id = 5 })</p>
-            <p class="category_btn">@Html.ActionLink("Monitor", "Index", new { Category_id = 6 })</p>
-            <p class="category_btn">@Html.ActionLink("Server", "Index", new { Category_id = 7 })</p>
+            <p class="category_btn">@Html.ActionLink("Home", "Index", new { id = 1 }, new { @class = "btn" })</p>
+            <p class="category_btn">@Html.ActionLink("Accessories", "Index", new { id = 2 }, new { @class = "btn" })</p>
+            <p class="category_btn">@Html.ActionLink("Desktop", "Index", new { id = 3 }, new { @class = "btn" })</p>
+            <p class="category_btn">@Html.ActionLink("IP Phone", "Index", new { id = 4 }, new { @class = "btn" })</p>
+            <p class="category_btn">@Html.ActionLink("Laptop", "Index", new { id = 5 }, new { @class = "btn" })</p>
+            <p class="category_btn">@Html.ActionLink("Monitor", "Index", new { id = 6 }, new { @class = "btn" })</p>
+            <p class="category_btn">@Html.ActionLink("Server", "Index", new { id = 7 }, new { @class = "btn" })</p>
             <p class="category_btn">
-                            @Html.ActionLink(
-                            linkText: "Log Out",
-                            actionName: "Logout",
-                            controllerName: "Account",
-                            routeValues: null,
-                            htmlAttributes: new { @style = "color: red; font-weight: bold;" })
-            )</p>
-            
+                @Html.ActionLink(
+                linkText: "Log Out",
+                actionName: "Logout",
+                controllerName: "Account",
+                routeValues: new { area = "" },
+                htmlAttributes: new { @style = "color: red; font-weight: bold;" })
+                )
+            </p>
+
         </div>
 
         @* item *@
         <div class="Item">
-            <p>
-                @Html.ActionLink("New product", "Create")
-            </p>
-            @foreach (var item in Model)
+            @*@foreach (var item in Model)
             {
                 <div class="item_container">
                     <div>
@@ -54,14 +47,38 @@
                     </div>
                     <div>
                         <p>
-                            @Html.LabelFor(modelItem => item.inStock, htmlAttributes: new { @class = "control-label col-md-2" }):
+                            @Html.LabelFor(modelItem => item.inStock, htmlAttributes: new { }):
                             @Html.DisplayFor(modelItem => item.inStock)
                         </p>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }, new { @class = "Edit-btn" })
+                    </div>
+                </div>
+            }*@
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="https://cdn3d.iconscout.com/3d/premium/thumb/product-5806313-4863042.png" class="card-img-top" alt="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNOJyuG1RkjAB8gc4P1HwO1KFi8K3uWJBxb-k0iNGsnT-6350BDWOaAxcYgGCX12ftrH0&usqp=CAU">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.ProductName)</h5>
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                        </div>
                     </div>
                 </div>
             }
         </div>
+            <ul class="pagination justify-content-center">
+                @for (int i = 0; i < ViewBag.NoOfPages; i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="/Products/Index?page=@(i+1)">@(i+1)</a>
+                    </li>
+                }
+            </ul>
+        </div>
+
     </div>
 </body>
 </html>
+
+

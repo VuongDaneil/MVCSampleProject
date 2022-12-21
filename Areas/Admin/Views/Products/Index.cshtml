@@ -1,0 +1,71 @@
+﻿@model IEnumerable<MVCSampleProject.Models.Product>
+@{ 
+    ViewBag.Title = "Home";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <link href="@Url.Content("~/Style/IndexPage.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="main_container">
+        @* Category *@
+        <div class="Category">
+            <p class="category_btn">@Html.ActionLink("Home", "Index", new { area = "Admin", id = 1 }, new { @class = "btn" })</p>
+            <p class="category_btn">@Html.ActionLink("Accessories", "Index", new { area = "Admin", id = 2 }, new { @class = "btn" })</p>
+            <p class="category_btn">@Html.ActionLink("Desktop", "Index", new { area = "Admin", id = 3 }, new { @class = "btn" })</p>
+            <p class="category_btn">@Html.ActionLink("IP Phone", "Index", new { area = "Admin", id = 4 }, new { @class = "btn" })</p>
+            <p class="category_btn">@Html.ActionLink("Laptop", "Index", new { area = "Admin", id = 5 }, new { @class = "btn" })</p>
+            <p class="category_btn">@Html.ActionLink("Monitor", "Index", new { area = "Admin", id = 6 }, new { @class = "btn" })</p>
+            <p class="category_btn">@Html.ActionLink("Server", "Index", new { area = "Admin", id = 7 }, new { @class = "btn" })</p>
+            <p class="category_btn">
+                @Html.ActionLink(
+                linkText: "Log Out",
+                actionName: "Logout",
+                controllerName: "Account",
+                routeValues: new { area = "" },
+                htmlAttributes: new { @style = "color: red; font-weight: bold;" })
+                )
+            </p>
+
+        </div>
+
+        @* item *@
+    <div class="Item">
+        <p>
+            @Html.ActionLink("New product", "Create", null, new { @class = "btn" })
+        </p>
+        @foreach (var item in Model)
+        {
+            <div class="item_container">
+                <div>
+                    <p class="name_label">@Html.DisplayFor(modelItem => item.ProductName)</p>
+                    <p>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        @Html.LabelFor(modelItem => item.inStock, htmlAttributes: new { }):
+                        @Html.DisplayFor(modelItem => item.inStock)
+                    </p>
+                    @Html.ActionLink("Edit", "Edit", new { area = "Admin", id = item.ProductID }, new { @class = "Edit-btn" })
+                </div>
+            </div>
+        }
+        <ul class="pagination justify-content-center">
+            @for (int i = 0; i < ViewBag.NoOfPages; i++)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/Admin/Products/Index?page=@(i+1)">@(i+1)</a>
+                </li>
+            }
+        </ul>
+    </div>
+        
+    </div>
+</body>
+</html>

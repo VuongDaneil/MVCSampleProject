@@ -1,0 +1,47 @@
+﻿@model MVCSampleProject.Models.Account
+@{
+    ViewBag.Title = "Profile";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>MyProfile</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+</head>
+
+@if (Model != null)
+{
+    <body>
+        <div class="container-fluid">
+            <table class="table w-25 m-auto">
+                <tr>
+                    <td>User ID</td>
+                    <td>@Model.UserID</td>
+                </tr>
+                <tr>
+                    <td>User Name</td>
+                    <td>@Model.UserName</td>
+                </tr>
+                <tr>
+                    <td>Role</td>
+                    <td>@Model.UserRole.RoleName</td>
+                </tr>
+                <tr class="form-group">
+                    <td colspan="2" style="text-align: center;">
+                        @Html.ActionLink("Log out", "Logout", "Account", new { area = ""}, new { @class = "btn btn-danger btn-sm glyphicon glyphicon-remove" })
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+
+}
+else
+{
+    <h3 style="text-align: center;">You not loged in yet! <a href="/Account/Login">Login now!</a></h3>
+}
+
+</html>

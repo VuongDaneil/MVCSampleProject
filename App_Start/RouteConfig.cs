@@ -16,7 +16,15 @@ namespace MVCSampleProject
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional}
+                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional},
+                namespaces: new[] { "MVCSampleProject.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "Home",
+                url: "Products/{action}/{id}",
+                defaults: new { controller = "Products", action = "Index", id = 1 },
+                namespaces: new[] { "MVCSampleProject.Controllers" }
             );
         }
     }
