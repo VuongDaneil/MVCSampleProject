@@ -6,9 +6,20 @@
 <h2 style="text-align: center;">User</h2>
 <table class="table table-bordered w-auto m-auto">
     <tr>
+        <th colspan="5">
+            <form class="d-flex flex-row align-items-baseline w-auto" action="/Admin/Users/Index/">
+                <input type="search"
+                       class="form-control w-75 m-lg-1"
+                       id="search"
+                       name="searchName"
+                       placeholder="Search user..." />
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </th>
+    </tr>
+    <tr>
         <th>User Name</th>
         <th>Role</th>
-
         <th>Status</th>
     </tr>
 

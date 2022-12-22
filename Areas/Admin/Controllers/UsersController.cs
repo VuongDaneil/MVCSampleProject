@@ -14,14 +14,17 @@ namespace MVCSampleProject.Areas.Admin.Controllers
     {
         private ProductsFPTSEntities _db = new ProductsFPTSEntities();
         // GET: Admin/Users
-        public ActionResult Index()
+        public ActionResult Index(string searchName = "")
         {
             var session = (UserLogin)Session[CommonConstants.USER_SESSION];
             int id = session.UserID;
 
-            List<Account> users = _db.Accounts.ToList();
-            var itemToRemove = users.Single(x => x.UserID == id);
+            List<Account> users = _db.Accounts.Where(x => x.UserName.Contains(searchName)).ToList();
+
+            //remove current user from list
+            var itemToRemove = users.SingleOrDefault(x => x.UserID == id);
             users.Remove(itemToRemove);
+
             return View(users);
         }
 

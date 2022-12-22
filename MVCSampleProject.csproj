@@ -277,6 +277,7 @@
     <Content Include="Scripts\jquery-3.6.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.6.1.min.map" />
     <Content Include="Views\Account\Blocked.cshtml" />
+    <Content Include="Views\Products\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

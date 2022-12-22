@@ -18,11 +18,11 @@ namespace MVCSampleProject.Areas.Admin.Controllers
         private ProductsFPTSEntities db = new ProductsFPTSEntities();
 
         // GET: Products
-        public ActionResult Index(int id = 1, int page = 1)
+        public ActionResult Index(int id = 1, int page = 1, string search = "")
         {
             var products = db.Products.Include(p => p.Category);
-            if (id == 1) { products = db.Products.Include(p => p.Category); }
-            else { products = db.Products.Where(x => x.CategoryID == id); }
+            if (id == 1) { products = db.Products.Include(p => p.Category).Where(p => p.ProductName.Contains(search)); }
+            else { products = db.Products.Where(x => x.CategoryID == id && x.ProductName.Contains(search)); }
 
 
             //Paging
@@ -37,18 +37,6 @@ namespace MVCSampleProject.Areas.Admin.Controllers
             return View(products.ToList());
         }
 
-        //[HttpPost]
-        //public ActionResult Index(int Category_id)
-        //{
-        //    var products = db.Products.Include(p => p.Category);
-        //    products = db.Products.Where(x => x.CategoryID == Category_id);
-        //    if (Category_id == 1) { products = db.Products.Include(p => p.Category); }
-        //    else { products = db.Products.Where(x => x.CategoryID == Category_id); }
-
-        //    return View(products.ToList());
-        //}
-
-        // GET: Products/Details/5
         public ActionResult Details(int id)
         {
             if (id == null)

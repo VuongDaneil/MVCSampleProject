@@ -13,7 +13,7 @@ namespace MVCSampleProject.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var session = (UserLogin)Session[CommonConstants.USER_SESSION];
-            if (session == null || session.isBlock == 1)
+            if (session == null)
             {
                 filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new { controller = "Account", action = "Login", area = "" }));
             }

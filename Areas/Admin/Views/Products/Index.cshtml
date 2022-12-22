@@ -34,38 +34,47 @@
         </div>
 
         @* item *@
-    <div class="Item">
-        <p>
-            @Html.ActionLink("New product", "Create", null, new { @class = "btn" })
-        </p>
-        @foreach (var item in Model)
-        {
-            <div class="item_container">
-                <div>
-                    <p class="name_label">@Html.DisplayFor(modelItem => item.ProductName)</p>
-                    <p>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </p>
-                </div>
-                <div>
-                    <p>
-                        @Html.LabelFor(modelItem => item.inStock, htmlAttributes: new { }):
-                        @Html.DisplayFor(modelItem => item.inStock)
-                    </p>
-                    @Html.ActionLink("Edit", "Edit", new { area = "Admin", id = item.ProductID }, new { @class = "Edit-btn" })
-                </div>
-            </div>
-        }
-        <ul class="pagination justify-content-center">
-            @for (int i = 0; i < ViewBag.NoOfPages; i++)
+        <div class="Item">
+            <p>
+                @Html.ActionLink("New product", "Create", null, new { @class = "btn" })
+            </p>
+
+            @foreach (var item in Model)
             {
-                <li class="page-item">
-                    <a class="page-link" href="/Admin/Products/Index?page=@(i+1)">@(i+1)</a>
-                </li>
+                <div class="item_container">
+                    <div>
+                        <p class="name_label">@Html.DisplayFor(modelItem => item.ProductName)</p>
+                        <p>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            @Html.LabelFor(modelItem => item.inStock, htmlAttributes: new { }):
+                            @Html.DisplayFor(modelItem => item.inStock)
+                        </p>
+                        @Html.ActionLink("Edit", "Edit", new { area = "Admin", id = item.ProductID }, new { @class = "Edit-btn" })
+                    </div>
+                </div>
             }
-        </ul>
-    </div>
-        
+            <ul class="pagination justify-content-center">
+                @for (int i = 0; i < ViewBag.NoOfPages; i++)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="/Admin/Products/Index?page=@(i+1)">@(i+1)</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        @* Search *@
+        <form class="d-flex flex-row align-items-baseline w-25" action="/Admin/Products/Index/">
+            <input type="search"
+                   class="form-control w-auto"
+                   id="search"
+                   name="search"
+                   placeholder="Search..." />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
     </div>
 </body>
 </html>

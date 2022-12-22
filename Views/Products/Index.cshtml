@@ -35,38 +35,29 @@
         </div>
 
         @* item *@
-        <div class="Item">
-            @*@foreach (var item in Model)
-            {
-                <div class="item_container">
-                    <div>
-                        <p class="name_label">@Html.DisplayFor(modelItem => item.ProductName)</p>
-                        <p>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </p>
-                    </div>
-                    <div>
-                        <p>
-                            @Html.LabelFor(modelItem => item.inStock, htmlAttributes: new { }):
-                            @Html.DisplayFor(modelItem => item.inStock)
-                        </p>
-                    </div>
-                </div>
-            }*@
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-            @foreach (var item in Model)
-            {
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="https://cdn3d.iconscout.com/3d/premium/thumb/product-5806313-4863042.png" class="card-img-top" alt="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNOJyuG1RkjAB8gc4P1HwO1KFi8K3uWJBxb-k0iNGsnT-6350BDWOaAxcYgGCX12ftrH0&usqp=CAU">
-                        <div class="card-body">
-                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.ProductName)</h5>
-                            <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+        <div class="p-2" style="width: 55%;">
+            <div class="row row-cols-1 row-cols-md-3">
+                @foreach (var item in Model)
+                {
+                    <div class="mb-2" style="width: 30%;">
+                        <div class="card h-100">
+                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/product-5806313-4863042.png" class="card-img-top" alt="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNOJyuG1RkjAB8gc4P1HwO1KFi8K3uWJBxb-k0iNGsnT-6350BDWOaAxcYgGCX12ftrH0&usqp=CAU">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    @*@Html.DisplayFor(modelItem => item.ProductName)*@
+                                    @Html.ActionLink(
+                                    linkText: item.ProductName,
+                                    actionName: "Details",
+                                    controllerName: "Products",
+                                    routeValues: new { id = item.ProductID, area = "" },
+                                    htmlAttributes: new { @style = "font-weight: bold;", @class= "text-decoration-none" })
+                                </h5>
+                                <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
+                }
+            </div>
             <ul class="pagination justify-content-center">
                 @for (int i = 0; i < ViewBag.NoOfPages; i++)
                 {
@@ -77,6 +68,16 @@
             </ul>
         </div>
 
+        @* Search *@
+        <form class="d-flex flex-row align-items-baseline mt-1 w-25" action="/Products/Index/" >
+            <input type="search"
+                   class="form-control w-auto"
+                   id="search"
+                   name="search"
+                   placeholder="Search..."/>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+       
     </div>
 </body>
 </html>

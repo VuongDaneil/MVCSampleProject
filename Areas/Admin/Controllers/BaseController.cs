@@ -12,7 +12,11 @@ namespace MVCSampleProject.Areas.Admin.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var session = (UserLogin)Session[CommonConstants.USER_SESSION];
-            if (session.Role != "Admin")
+            if (session == null)
+            {
+                filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new { controller = "Account", action = "Login", area = "" }));
+            }
+            else if(session.Role != "Admin")
             {
                 filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new { controller = "Account", action = "Login", area = "" }));
             }
