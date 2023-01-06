@@ -13,7 +13,26 @@
           <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="UserPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="RoleID" Type="int" Nullable="false" />
-          <Property Name="isBlock" Type="int" />
+          <Property Name="isBlock" Type="int" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="cart">
+          <Key>
+            <PropertyRef Name="cartID" />
+          </Key>
+          <Property Name="cartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="cartStatus" Type="int" />
+        </EntityType>
+        <EntityType Name="cartDetail">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="cartID" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="price" Type="float" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -32,6 +51,9 @@
           <Property Name="Description" Type="nvarchar" MaxLength="200" />
           <Property Name="inStock" Type="int" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="rate" Type="float" Nullable="false" />
+          <Property Name="price" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -40,6 +62,18 @@
           <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <Association Name="cart_details">
+          <End Role="cart" Type="Self.cart" Multiplicity="0..1" />
+          <End Role="cartDetail" Type="Self.cartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cart">
+              <PropertyRef Name="cartID" />
+            </Principal>
+            <Dependent Role="cartDetail">
+              <PropertyRef Name="cartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="product_category">
           <End Role="Category" Type="Self.Category" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -49,6 +83,18 @@
             </Principal>
             <Dependent Role="Product">
               <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="product_details">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="cartDetail" Type="Self.cartDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="cartDetail">
+              <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -66,12 +112,22 @@
         </Association>
         <EntityContainer Name="ProductsFPTSModelStoreContainer">
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cart" EntityType="Self.cart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cartDetail" EntityType="Self.cartDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="cart_details" Association="Self.cart_details">
+            <End Role="cart" EntitySet="cart" />
+            <End Role="cartDetail" EntitySet="cartDetail" />
+          </AssociationSet>
           <AssociationSet Name="product_category" Association="Self.product_category">
             <End Role="Category" EntitySet="Category" />
             <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="product_details" Association="Self.product_details">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="cartDetail" EntitySet="cartDetail" />
           </AssociationSet>
           <AssociationSet Name="user_role" Association="Self.user_role">
             <End Role="UserRole" EntitySet="UserRole" />
@@ -91,7 +147,9 @@
           <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RoleID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="UserRole" Relationship="Self.user_role" FromRole="Account" ToRole="UserRole" />
-          <Property Name="isBlock" Type="Int32" />
+          <Property Name="isBlock" Type="Int32" Nullable="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -112,6 +170,10 @@
           <Property Name="inStock" Type="Int32" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Category" Relationship="Self.product_category" FromRole="Product" ToRole="Category" />
+          <Property Name="rate" Type="Double" Nullable="false" />
+          <Property Name="price" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="cartDetail" Relationship="ProductsFPTSModel.product_details" FromRole="Product" ToRole="cartDetail" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -158,7 +220,61 @@
             <End Role="Category" EntitySet="Categories" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
+          <EntitySet Name="carts" EntityType="ProductsFPTSModel.cart" />
+          <EntitySet Name="cartDetails" EntityType="ProductsFPTSModel.cartDetail" />
+          <AssociationSet Name="cart_details" Association="ProductsFPTSModel.cart_details">
+            <End Role="cart" EntitySet="carts" />
+            <End Role="cartDetail" EntitySet="cartDetails" />
+          </AssociationSet>
+          <AssociationSet Name="product_details" Association="ProductsFPTSModel.product_details">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="cartDetail" EntitySet="cartDetails" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="cart">
+          <Key>
+            <PropertyRef Name="cartID" />
+          </Key>
+          <Property Name="cartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="cartStatus" Type="Int32" />
+          <NavigationProperty Name="cartDetails" Relationship="ProductsFPTSModel.cart_details" FromRole="cart" ToRole="cartDetail" />
+        </EntityType>
+        <EntityType Name="cartDetail">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="cartID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="price" Type="Double" />
+          <NavigationProperty Name="cart" Relationship="ProductsFPTSModel.cart_details" FromRole="cartDetail" ToRole="cart" />
+          <NavigationProperty Name="Product" Relationship="ProductsFPTSModel.product_details" FromRole="cartDetail" ToRole="Product" />
+        </EntityType>
+        <Association Name="cart_details">
+          <End Type="ProductsFPTSModel.cart" Role="cart" Multiplicity="0..1" />
+          <End Type="ProductsFPTSModel.cartDetail" Role="cartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cart">
+              <PropertyRef Name="cartID" />
+            </Principal>
+            <Dependent Role="cartDetail">
+              <PropertyRef Name="cartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="product_details">
+          <End Type="ProductsFPTSModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ProductsFPTSModel.cartDetail" Role="cartDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="cartDetail">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -168,6 +284,8 @@
           <EntitySetMapping Name="Accounts">
             <EntityTypeMapping TypeName="ProductsFPTSModel.Account">
               <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="isBlock" ColumnName="isBlock" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
@@ -187,6 +305,9 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="ProductsFPTSModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="Images" ColumnName="Images" />
@@ -201,6 +322,25 @@
               <MappingFragment StoreEntitySet="UserRole">
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="carts">
+            <EntityTypeMapping TypeName="ProductsFPTSModel.cart">
+              <MappingFragment StoreEntitySet="cart">
+                <ScalarProperty Name="cartStatus" ColumnName="cartStatus" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="cartID" ColumnName="cartID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cartDetails">
+            <EntityTypeMapping TypeName="ProductsFPTSModel.cartDetail">
+              <MappingFragment StoreEntitySet="cartDetail">
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="cartID" ColumnName="cartID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

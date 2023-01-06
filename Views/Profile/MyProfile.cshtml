@@ -1,5 +1,4 @@
-﻿@model MVCSampleProject.Models.Account
-@{
+﻿@{
     ViewBag.Title = "Profile";
 }
 
@@ -19,15 +18,38 @@
             <table class="table w-25 m-auto">
                 <tr>
                     <td>User ID</td>
-                    <td>@Model.UserID</td>
+                    @if (Model.UserID == 0)
+                    {
+                        <td class="fw-bold">External User</td>
+                    }
+                    else
+                    {
+                        <td class="fw-bold">@Model.UserID</td>
+                    }
+                    
                 </tr>
                 <tr>
                     <td>User Name</td>
-                    <td>@Model.UserName</td>
+                    <td class="fw-bold">@Model.UserName</td>
+                </tr>
+                <tr>
+                    <td>Phone number</td>
+                    <td class="fw-bold">@Model.phone</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td class="fw-bold">@Model.email</td>
                 </tr>
                 <tr>
                     <td>Role</td>
-                    <td>@Model.UserRole.RoleName</td>
+                    @if (Model.UserID == 0)
+                    {
+                        <td class="fw-bold">Customer</td>
+                    }
+                    else
+                    {
+                        <td class="fw-bold">@Model.UserRole.RoleName</td>
+                    }
                 </tr>
                 <tr class="form-group">
                     <td colspan="2" style="text-align: center;">

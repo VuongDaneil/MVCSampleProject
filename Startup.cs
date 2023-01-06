@@ -24,7 +24,6 @@ namespace MVCSampleProject
             });
             this.CreateRoleAndUsers();
         }
-
         public void CreateRoleAndUsers()
         {
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>());

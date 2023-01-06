@@ -1,0 +1,15 @@
+﻿<li class="">
+    <a href="/Cart/Index"><i class="fa-solid fa-cart-shopping text-primary" style="margin-right: 15px;"></i></a>
+
+    @{ string userName = Model.UserName;}
+    @Html.ActionLink(linkText: userName,
+                actionName: "Index",
+                controllerName: "Profile",
+                routeValues: new { area = "" },
+                htmlAttributes: new { @style = "text-decoration: none;" })
+
+    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" class="rounded-circle" style="width: 1.5em"
+         alt="Avatar" />
+
+</li>
+

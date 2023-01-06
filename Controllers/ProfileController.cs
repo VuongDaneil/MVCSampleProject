@@ -18,7 +18,17 @@ namespace MVCSampleProject.Controllers
             id = session.UserID;
 
             Account currentUser = new Account();
-            currentUser = db.Accounts.Where(x => x.UserID == id).FirstOrDefault();
+            if(id == 0)
+            {
+                currentUser.UserID = 0;
+                currentUser.UserName = session.UserName;
+                currentUser.email = session.Email;
+            }
+            else
+            {
+                currentUser = db.Accounts.Where(x => x.UserID == id).FirstOrDefault();
+            }
+            
             if (currentUser != null)
             {
                 return View("MyProfile", currentUser);

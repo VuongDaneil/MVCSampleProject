@@ -4,9 +4,6 @@
     ViewBag.Title = "Details";
 }
 <section class="vh-100" style="background-color: #9de2ff;">
-    <p>
-        @Html.ActionLink("< Return", "Index")
-    </p>
 
     <div class="container py-2 h-auto">
         <div class="d-flex align-items-lg-start justify-content-center h-100">
@@ -15,8 +12,8 @@
                     <div class="card-body p-4">
                         <div class="d-flex text-black">
                             <div class="flex-shrink-0">
-                                <img src="https://cdn3d.iconscout.com/3d/premium/thumb/product-5806313-4863042.png"
-                                     alt="Generic placeholder image" class="img-fluid"
+                                <img src=@Model.Images
+                                     alt="https://cdn3d.iconscout.com/3d/premium/thumb/product-5806313-4863042.png" class="img-fluid"
                                      style="width: 180px; border-radius: 10px;">
                             </div>
                             <div class="flex-grow-1 ms-3">
@@ -38,7 +35,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex pt-1">
-                                    <button type="button" class="btn btn-outline-primary me-1 flex-grow-1">Add to cart</button>
+                                    <a href="/Cart/AddItem?_productId=@Model.ProductID&_quantity=1"><button type="button" class="btn btn-outline-primary me-1 flex-grow-1">Add to cart</button></a>
                                     <button type="button" class="btn btn-primary flex-grow-1">Buy</button>
                                 </div>
                             </div>
@@ -49,7 +46,8 @@
 
             @* Description *@
             <div>
-                <h3 class="text-muted mb-1 m-lg-1">Description</h3>
+                <h3 class="text-warning mb-1 m-lg-1">@Html.DisplayFor(model => model.price) đ</h3>
+                <h4 class="text-muted mb-1 m-lg-1">Description</h4>
                 <p class="mb-0  mb-1 m-lg-1">@Html.DisplayFor(model => model.Description)</p>
             </div>
         </div>

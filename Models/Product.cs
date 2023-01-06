@@ -20,7 +20,11 @@ namespace MVCSampleProject.Models
         public string Description { get; set; }
         public Nullable<int> inStock { get; set; }
         public int CategoryID { get; set; }
+        public double rate { get; set; }
+        public int price { get; set; }
+        public string CreatedBy { get; set; }
     
         public virtual Category Category { get; set; }
+        public virtual cartDetail cartDetail { get; set; }
     }
 }

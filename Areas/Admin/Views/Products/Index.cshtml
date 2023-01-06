@@ -28,7 +28,6 @@
                 controllerName: "Account",
                 routeValues: new { area = "" },
                 htmlAttributes: new { @style = "color: red; font-weight: bold;" })
-                )
             </p>
 
         </div>
@@ -44,6 +43,9 @@
                 <div class="item_container">
                     <div>
                         <p class="name_label">@Html.DisplayFor(modelItem => item.ProductName)</p>
+                        <p>
+                            Price: @Html.DisplayFor(modelItem => item.price)
+                        </p>
                         <p>
                             @Html.DisplayFor(modelItem => item.Description)
                         </p>

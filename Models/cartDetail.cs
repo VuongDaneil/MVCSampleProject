@@ -12,16 +12,14 @@ namespace MVCSampleProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Account
+    public partial class cartDetail
     {
-        public int UserID { get; set; }
-        public string UserName { get; set; }
-        public string UserPassword { get; set; }
-        public int RoleID { get; set; }
-        public int isBlock { get; set; }
-        public string email { get; set; }
-        public string phone { get; set; }
+        public int ProductID { get; set; }
+        public Nullable<int> cartID { get; set; }
+        public Nullable<int> Quantity { get; set; }
+        public Nullable<double> price { get; set; }
     
-        public virtual UserRole UserRole { get; set; }
+        public virtual cart cart { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

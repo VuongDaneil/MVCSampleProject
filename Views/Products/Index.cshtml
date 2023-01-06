@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<MVCSampleProject.Models.Product>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "MainPage";
 }
 
 <!DOCTYPE html>
@@ -15,34 +15,39 @@
     <div class="main_container">
         @* Category *@
         <div class="Category">
-            <p class="category_btn">@Html.ActionLink("Home", "Index", new { id = 1 }, new { @class = "btn" })</p>
+            <p class="category_btn">@Html.ActionLink("Home", "Index", new { id = 1 }, new { @class = "btn text-success" })</p>
             <p class="category_btn">@Html.ActionLink("Accessories", "Index", new { id = 2 }, new { @class = "btn" })</p>
             <p class="category_btn">@Html.ActionLink("Desktop", "Index", new { id = 3 }, new { @class = "btn" })</p>
             <p class="category_btn">@Html.ActionLink("IP Phone", "Index", new { id = 4 }, new { @class = "btn" })</p>
             <p class="category_btn">@Html.ActionLink("Laptop", "Index", new { id = 5 }, new { @class = "btn" })</p>
             <p class="category_btn">@Html.ActionLink("Monitor", "Index", new { id = 6 }, new { @class = "btn" })</p>
             <p class="category_btn">@Html.ActionLink("Server", "Index", new { id = 7 }, new { @class = "btn" })</p>
-            <p class="category_btn">
-                @Html.ActionLink(
-                linkText: "Log Out",
-                actionName: "Logout",
-                controllerName: "Account",
-                routeValues: new { area = "" },
-                htmlAttributes: new { @style = "color: red; font-weight: bold;" })
-                )
-            </p>
 
         </div>
 
         @* item *@
-        <div class="p-2" style="width: 55%;">
-            <div class="row row-cols-1 row-cols-md-3">
-                @foreach (var item in Model)
-                {
-                    <div class="mb-2" style="width: 30%;">
-                        <div class="card h-100">
-                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/product-5806313-4863042.png" class="card-img-top" alt="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNOJyuG1RkjAB8gc4P1HwO1KFi8K3uWJBxb-k0iNGsnT-6350BDWOaAxcYgGCX12ftrH0&usqp=CAU">
-                            <div class="card-body">
+    <div class="container mt-5" style="width: 55%;">
+        <div class="row clearfix">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div class="card product_item">
+                        <div class="body">
+                            <div class="cp_img">
+                                @if (item.Images != null)
+                                {
+                                    <img src=@item.Images class="img-fluid">
+                                }
+                                else
+                                {
+                                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/product-5806313-4863042.png" class="img-fluid" alt="">
+                                }
+                                <div class="hover">
+                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                </div>
+                            </div>
+                            <div class="product_details">
                                 <h5 class="card-title">
                                     @*@Html.DisplayFor(modelItem => item.ProductName)*@
                                     @Html.ActionLink(
@@ -50,34 +55,37 @@
                                     actionName: "Details",
                                     controllerName: "Products",
                                     routeValues: new { id = item.ProductID, area = "" },
-                                    htmlAttributes: new { @style = "font-weight: bold;", @class= "text-decoration-none" })
+                                    htmlAttributes: new { @style = "font-weight: bold; overflow: hidden; text-overflow: ellipsis;", @class = "text-decoration-none" })
                                 </h5>
-                                <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                                <ul class="product_price list-unstyled">
+                                    <li class="new_price">@item.price</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                }
-            </div>
-            <ul class="pagination justify-content-center">
-                @for (int i = 0; i < ViewBag.NoOfPages; i++)
-                {
-                    <li class="page-item">
-                        <a class="page-link" href="/Products/Index?page=@(i+1)">@(i+1)</a>
-                    </li>
-                }
-            </ul>
+                </div>
+            }
         </div>
+        <ul class="pagination justify-content-center">
+            @for (int i = 0; i < ViewBag.NoOfPages; i++)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/Products/Index?page=@(i+1)">@(i+1)</a>
+                </li>
+            }
+        </ul>
+    </div>
 
         @* Search *@
-        <form class="d-flex flex-row align-items-baseline mt-1 w-25" action="/Products/Index/" >
+        <form class="d-flex flex-row align-items-baseline mt-1 w-25" action="/Products/Index/">
             <input type="search"
                    class="form-control w-auto"
                    id="search"
                    name="search"
-                   placeholder="Search..."/>
+                   placeholder="Search..." />
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
-       
+
     </div>
 </body>
 </html>

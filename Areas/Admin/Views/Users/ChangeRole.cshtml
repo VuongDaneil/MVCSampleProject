@@ -12,54 +12,37 @@
     
 <div class="form-horizontal">
     <h4>Account</h4>
-    <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.UserID)
     @Html.HiddenFor(model => model.UserPassword)
 
-    @*<div class="form-group">
-        @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.RoleID, "RoleID", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("RoleID", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.RoleID, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
-
-    <table class="table w-25 m-auto form-group">
-        <tr class="form-group">
-            <td>User ID</td>
-            <td>@Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
-        </tr>
-        <tr class="form-group">
-            <td>User Name</td>
-            <td>@Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
-        </tr>
-        <tr class="form-group">
-            <td>Role</td>
-            <td>@Html.DropDownList("RoleID", null, htmlAttributes: new { @class = "form-control" })</td>
-        </tr>
-        <tr class="form-group">
-            <td colspan="2" style="text-align: center;">
-                <input type="submit" value="Save" class="btn btn-danger" />
-            </td>
-        </tr>
-    </table>
+<table class="table w-25 m-auto form-group">
+    <tr class="form-group">
+        <td>User ID</td>
+        <td>@Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control ", @readonly = "readonly" } })</td>
+    </tr>
+    <tr class="form-group">
+        <td>User Name</td>
+        <td>@Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control ", @readonly = "readonly" } })</td>
+    </tr>
+    <tr class="form-group">
+        <td>User ID</td>
+        <td>@Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control ", @readonly = "readonly" } })</td>
+    </tr>
+    <tr class="form-group">
+        <td>User Name</td>
+        <td>@Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</td>
+    </tr>
+    <tr class="form-group">
+        <td class="fw-bold">Role</td>
+        <td class="fw-bold">@Html.DropDownList("RoleID", null, htmlAttributes: new { @class = "form-control text-primary" })</td>
+    </tr>
+    <tr class="form-group">
+        <td colspan="2" style="text-align: center;">
+            <input type="submit" value="Save" class="btn btn-danger" />
+        </td>
+    </tr>
+</table>
 </div>
 }
 

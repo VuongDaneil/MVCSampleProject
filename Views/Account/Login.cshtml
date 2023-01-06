@@ -12,10 +12,9 @@
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
-    @*<link href="@Url.Content("~/Style/AccountPage.css")" rel="stylesheet" type="text/css" />*@
+    <script src="https://kit.fontawesome.com/6f16284e08.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
     <div class="account_form">
         <div style="text-align: center;">
             <h1>Login</h1>
@@ -33,14 +32,24 @@
                     @Html.LabelFor(m => m.UserPassword)
                     @Html.PasswordFor(m => m.UserPassword, new { @class = "form-control", @placeholder = "Password" })
                 </div>
-                <div class="form-group mt-5" style="text-align: center;" >
+                <div class="form-group mt-5" style="text-align: center;">
                     <input type="submit" name="submit" class="btn btn-danger" value="Login" />
                 </div>
             </div>
         }
+
         <div class="form-group mt-1" style="text-align: center;">
             Don't have an account?
-            @Html.ActionLink("Sign Up", "SignUp")
+            @Html.ActionLink("Sign Up now!", "SignUp")
+            <br />
+            Or sign up with:
+            
+            <button type="button" class="btn btn-link" onclick="location.href='@Url.Action("FacebookLogin", "Account")'">
+                <i class="fa-brands fa-facebook" style="font-size:25px;"></i>
+            </button>
+            <button type="button" class="btn btn-link" onclick="location.href='@Url.Action("GoogleLogin", "Account")'">
+                <i class="fa-brands fa-google text-danger" style="font-size:25px;"></i>
+            </button>
         </div>
 
     </div>

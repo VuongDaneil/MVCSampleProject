@@ -29,5 +29,7 @@ namespace MVCSampleProject.Models
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
+        public virtual DbSet<cart> carts { get; set; }
+        public virtual DbSet<cartDetail> cartDetails { get; set; }
     }
 }

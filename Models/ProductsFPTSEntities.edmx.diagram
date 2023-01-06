@@ -11,6 +11,10 @@
         <EntityTypeShape EntityType="ProductsFPTSModel.UserRole" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
         <AssociationConnector Association="ProductsFPTSModel.user_role" ManuallyRouted="false" />
         <AssociationConnector Association="ProductsFPTSModel.product_category" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ProductsFPTSModel.cart" Width="1.5" PointX="5" PointY="1.375" />
+        <EntityTypeShape EntityType="ProductsFPTSModel.cartDetail" Width="1.5" PointX="5.25" PointY="4.5" />
+        <AssociationConnector Association="ProductsFPTSModel.cart_details" />
+        <AssociationConnector Association="ProductsFPTSModel.product_details" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

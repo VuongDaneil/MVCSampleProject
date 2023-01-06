@@ -9,8 +9,10 @@ using System.Security.Cryptography;
 using MVCSampleProject.Filters;
 using MVCSampleProject.Identity;
 using MVCSampleProject.common;
+using Facebook;
+using System.Configuration;
 
-namespace ProjectMVC5.Controllers
+namespace MVCSampleProject.Controllers
 {
     
     public class AccountController : Controller
@@ -18,6 +20,18 @@ namespace ProjectMVC5.Controllers
         public AppUser currentUser = new AppUser();
 
         private ProductsFPTSEntities _db = new ProductsFPTSEntities();
+        private Uri RedirectUri
+        {
+            get
+            {
+                var uriBuilder = new UriBuilder(Request.Url);
+                uriBuilder.Query = null;
+                uriBuilder.Fragment = null;
+                uriBuilder.Path = Url.Action("FacebookCallback");
+                return uriBuilder.Uri;
+            }
+        }
+
         // GET: Account
         //[MyAuthenFilter]
         public ActionResult Index()
@@ -38,6 +52,7 @@ namespace ProjectMVC5.Controllers
             ViewBag.RoleID = new SelectList(_db.UserRoles, "RoleID", "RoleName");
             return View();
         }
+
         //POST: SignUp
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -45,7 +60,7 @@ namespace ProjectMVC5.Controllers
         {
             if (ModelState.IsValid)
             {
-                var check = _db.Accounts.FirstOrDefault(s => s.UserName == _user.UserName);
+                var check = _db.Accounts.FirstOrDefault(s => s.email == _user.email);
                 if (check == null)
                 {
                     _user.UserPassword = toMD5(_user.UserPassword);
@@ -60,12 +75,8 @@ namespace ProjectMVC5.Controllers
                     ViewBag.RoleID = new SelectList(_db.UserRoles, "RoleID", "RoleName");
                     return View();
                 }
-                 
- 
             }
             return View();
-             
-            
         }
  
         public ActionResult Login()
@@ -90,6 +101,7 @@ namespace ProjectMVC5.Controllers
                     userSession.UserID = data.FirstOrDefault().UserID;
                     userSession.UserName = data.FirstOrDefault().UserName;
                     userSession.Role = data.FirstOrDefault().UserRole.RoleName;
+                    userSession.Email = data.FirstOrDefault().email;
                     userSession.isBlock = data.FirstOrDefault().isBlock;
                     Session.Add(CommonConstants.USER_SESSION, userSession);
 
@@ -108,6 +120,74 @@ namespace ProjectMVC5.Controllers
             return View();
         }
 
+        public ActionResult FacebookLogin()
+        {
+            var fb = new FacebookClient();
+
+            var loginUrl = fb.GetLoginUrl(new
+            {
+                client_id = ConfigurationManager.AppSettings["FbAppID"],
+                client_secret = ConfigurationManager.AppSettings["FbAppSecret"],
+                redirect_uri = RedirectUri.AbsoluteUri,
+                response_type = "code",
+                scope = "email",
+            }) ;
+
+            return Redirect(loginUrl.AbsoluteUri);
+        }
+
+        public ActionResult FacebookCallback(string code)
+        {
+            var fb = new FacebookClient();
+
+            dynamic result = fb.Post("oauth/access_token",new
+            {
+                client_id = ConfigurationManager.AppSettings["FbAppID"],
+                client_secret = ConfigurationManager.AppSettings["FbAppSecret"],
+                redirect_uri = RedirectUri.AbsoluteUri,
+                code = code
+            });
+
+
+            var accessToken = result.access_token;
+            if (!string.IsNullOrEmpty(accessToken))
+            {
+                fb.AccessToken = accessToken;
+
+                dynamic me = fb.Get("me?fields=first_name,middle_name,last_name,id,email");
+                string email = me.email;
+                string userName = me.first_name;
+
+                var _user = new Account();
+                _user.email = email;
+                _user.UserName = userName;
+                _user.isBlock = 0;
+                _user.RoleID = 2;
+
+                var check = _db.Accounts.FirstOrDefault(s => s.email == email); //Check
+
+                if (check == null)
+                {
+                    //SignUp(_user);
+
+                    var _userSession = new UserLogin();
+                    _userSession.UserID = 0;
+                    _userSession.UserName = _user.UserName;
+                    _userSession.Role = "Customer";
+                    _userSession.Email = _user.email;
+                    _userSession.isBlock = _user.isBlock;
+                    Session.Add(CommonConstants.USER_SESSION, _userSession);
+                    
+                }
+            }
+            return RedirectToAction("Index", "Products", new { area = "", id = 1 });
+        }
+
+        public ActionResult GoogleLogin()
+        {
+            return View();
+        }
+
         //Logout
         public ActionResult Logout()
         {
@@ -122,6 +202,12 @@ namespace ProjectMVC5.Controllers
         {
             return View();
         }
+
+        public PartialViewResult getUserInfo()
+        {
+            var userInfo = (UserLogin)Session[CommonConstants.USER_SESSION];
+            return PartialView("~/Views/Shared/_userPartialPage1.cshtml", userInfo);
+        }
         //ma hoa MD5
         public static string toMD5(string str)
         {
@@ -133,7 +219,6 @@ namespace ProjectMVC5.Controllers
             for (int i = 0; i < targetData.Length; i++)
             {
                 byte2String += targetData[i].ToString("x2");
-                
             }
             return byte2String;
         }

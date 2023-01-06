@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using MVCSampleProject.Models;
 using MVCSampleProject.Filters;
+using MVCSampleProject.common;
 
 namespace MVCSampleProject.Areas.Admin.Controllers
 {
@@ -64,12 +65,14 @@ namespace MVCSampleProject.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Create([Bind(Include = "ProductID,ProductName,Description,Images,inStock,CategoryID")] Product product, HttpPostedFileBase Images)
+        public ActionResult Create([Bind(Include = "ProductID,ProductName,Description,Images,inStock,CategoryID,price")] Product product, HttpPostedFileBase Images)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var session = (UserLogin)Session[CommonConstants.USER_SESSION];
+                    product.CreatedBy = session.UserName;
                     db.Products.Add(product);
                     db.SaveChanges();
                     return RedirectToAction("Index", 1);
@@ -105,7 +108,7 @@ namespace MVCSampleProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductID,ProductName,Images,Description,inStock,CategoryID")] Product product)
+        public ActionResult Edit([Bind(Include = "ProductID,ProductName,Images,Description,inStock,CategoryID,price")] Product product)
         {
             if (ModelState.IsValid)
             {
