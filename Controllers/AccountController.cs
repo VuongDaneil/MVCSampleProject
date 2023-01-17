@@ -49,7 +49,8 @@ namespace MVCSampleProject.Controllers
         //GET: SignUp
         public ActionResult SignUp()
         {
-            ViewBag.RoleID = new SelectList(_db.UserRoles, "RoleID", "RoleName");
+            SelectList a = new SelectList(_db.UserRoles, "RoleID", "RoleName");
+            ViewBag.RoleID = new SelectList(_db.UserRoles.Where(x => x.RoleName != "Facebook user" && x.RoleName != "Google user"), "RoleID", "RoleName");
             return View();
         }
 
@@ -60,10 +61,11 @@ namespace MVCSampleProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var check = _db.Accounts.FirstOrDefault(s => s.email == _user.email);
+                var check = _db.Accounts.FirstOrDefault(s => s.email == _user.email && s.UserName == _user.UserName);
                 if (check == null)
                 {
                     _user.UserPassword = toMD5(_user.UserPassword);
+                    _user.isBlock = 0;
                     _db.Configuration.ValidateOnSaveEnabled = false;
                     _db.Accounts.Add(_user);
                     _db.SaveChanges();
@@ -72,7 +74,7 @@ namespace MVCSampleProject.Controllers
                 else
                 {
                     ViewBag.error = "Username already exists";
-                    ViewBag.RoleID = new SelectList(_db.UserRoles, "RoleID", "RoleName");
+                    ViewBag.RoleID = new SelectList(_db.UserRoles.Where(x => x.RoleName != "Facebook user" || x.RoleName != "Google user"), "RoleID", "RoleName");
                     return View();
                 }
             }
@@ -85,12 +87,12 @@ namespace MVCSampleProject.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(Account user)
+        public ActionResult Login(logininfo user)
         {
-            if (user.ToString().Length > 0)
-            {
-                var f_password = toMD5(user.UserPassword);
-                var data =_db.Accounts.Where(s => s.UserName.Equals(user.UserName) && s.UserPassword.Equals(f_password)).ToList();
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            if (ModelState.IsValid) {
+                var f_password = toMD5(user.password);
+                var data = _db.Accounts.Where(s => s.UserName.Equals(user.username) && s.UserPassword.Equals(f_password)).ToList();
                 if (data.Count() > 0)
                 {
                     currentUser.UserName = data.FirstOrDefault().UserName;
@@ -100,6 +102,7 @@ namespace MVCSampleProject.Controllers
                     var userSession = new UserLogin();
                     userSession.UserID = data.FirstOrDefault().UserID;
                     userSession.UserName = data.FirstOrDefault().UserName;
+                    userSession.Avatar = data.FirstOrDefault().Avatar;
                     userSession.Role = data.FirstOrDefault().UserRole.RoleName;
                     userSession.Email = data.FirstOrDefault().email;
                     userSession.isBlock = data.FirstOrDefault().isBlock;
@@ -109,15 +112,18 @@ namespace MVCSampleProject.Controllers
                     {
                         return RedirectToAction("Index", "Products", new { area = "Admin", id = 1 });
                     }
-                    return RedirectToAction("Index", "Products", new { area = "",  id = 1 });
+                    return RedirectToAction("Index", "Products", new { area = "", id = 1 });
                 }
                 else
                 {
-                    ViewBag.error = "Login failed";
+                    ViewBag.error = errors;
                     return RedirectToAction("Login");
                 }
             }
-            return View();
+            else
+            {
+                return View();
+            }
         }
 
         public ActionResult FacebookLogin()
@@ -154,30 +160,54 @@ namespace MVCSampleProject.Controllers
             {
                 fb.AccessToken = accessToken;
 
-                dynamic me = fb.Get("me?fields=first_name,middle_name,last_name,id,email");
+                dynamic me = fb.Get("me?fields=first_name,middle_name,last_name,id,email,picture");
                 string email = me.email;
                 string userName = me.first_name;
+                string avatar = me.picture["data"]["url"];
+                string fullname = me.first_name + me.last_name;
+
 
                 var _user = new Account();
                 _user.email = email;
                 _user.UserName = userName;
+                _user.FullName = fullname;
+                _user.Avatar = avatar;
+                _user.UserPassword = "";
+                _user.ShippingAddress = "";
+                _user.phone = "";
                 _user.isBlock = 0;
-                _user.RoleID = 2;
+                _user.RoleID = 3;
 
-                var check = _db.Accounts.FirstOrDefault(s => s.email == email); //Check
+                var check = _db.Accounts.FirstOrDefault(s => s.email == email && s.UserName == userName); //Check
 
                 if (check == null)
                 {
-                    //SignUp(_user);
+                    SignUp(_user);
 
+                    var data = _db.Accounts.Where(s => s.UserName.Equals(_user.UserName) && s.UserPassword.Equals(_user.email)).ToList();
+
+                    //Luu vao session
                     var _userSession = new UserLogin();
-                    _userSession.UserID = 0;
+                    _userSession.UserID = _user.UserID;
                     _userSession.UserName = _user.UserName;
+                    _userSession.Avatar = avatar;
                     _userSession.Role = "Customer";
                     _userSession.Email = _user.email;
                     _userSession.isBlock = _user.isBlock;
                     Session.Add(CommonConstants.USER_SESSION, _userSession);
                     
+                }
+                else
+                {
+                    //Luu vao session
+                    var userSession = new UserLogin();
+                    userSession.UserID = check.UserID;
+                    userSession.UserName = check.UserName;
+                    userSession.Avatar = check.Avatar;
+                    userSession.Role = check.UserRole.RoleName;
+                    userSession.Email = check.email;
+                    userSession.isBlock = check.isBlock;
+                    Session.Add(CommonConstants.USER_SESSION, userSession);
                 }
             }
             return RedirectToAction("Index", "Products", new { area = "", id = 1 });
@@ -208,6 +238,7 @@ namespace MVCSampleProject.Controllers
             var userInfo = (UserLogin)Session[CommonConstants.USER_SESSION];
             return PartialView("~/Views/Shared/_userPartialPage1.cshtml", userInfo);
         }
+
         //ma hoa MD5
         public static string toMD5(string str)
         {
@@ -222,6 +253,5 @@ namespace MVCSampleProject.Controllers
             }
             return byte2String;
         }
-        
     }
 }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              

@@ -4,8 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8554917324fa4de4a196eebf7269eef6" Name="Diagram1">
-        <EntityTypeShape EntityType="ProductsFPTSModel.Account" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+      <Diagram DiagramId="8554917324fa4de4a196eebf7269eef6" Name="Diagram1" ZoomLevel="75">
+        <EntityTypeShape EntityType="ProductsFPTSModel.Account" Width="1.5" PointX="3" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ProductsFPTSModel.Category" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ProductsFPTSModel.Product" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
         <EntityTypeShape EntityType="ProductsFPTSModel.UserRole" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />

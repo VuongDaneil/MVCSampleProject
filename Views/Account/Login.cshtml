@@ -1,4 +1,4 @@
-﻿@model MVCSampleProject.Models.Account
+﻿@model MVCSampleProject.Models.logininfo
 
 @{
     Layout = null;
@@ -24,13 +24,15 @@
             @Html.AntiForgeryToken()
             <div class="form_body">
                 <div class="form-group col-xl-3 m-auto mt-1">
-                    @Html.LabelFor(m => m.UserName)
-                    @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control", @placeholder = "Username" })
+                    <label class="fw-bold">Username</label>
+                    @Html.ValidationMessageFor(m => m.username, "", new { @class = "text-danger fw-bold"})
+                    @Html.TextBoxFor(m => m.username, "", new { @class = "form-control", @placeholder = "Username" })
 
                 </div>
                 <div class="form-group col-xl-3 m-auto mt-1">
-                    @Html.LabelFor(m => m.UserPassword)
-                    @Html.PasswordFor(m => m.UserPassword, new { @class = "form-control", @placeholder = "Password" })
+                    <label class="fw-bold">Password</label>
+                    @Html.ValidationMessageFor(m => m.password, "", new { @class = "text-danger fw-bold" })
+                    @Html.PasswordFor(m => m.password, new { @class = "form-control", @placeholder = "Password" })
                 </div>
                 <div class="form-group mt-5" style="text-align: center;">
                     <input type="submit" name="submit" class="btn btn-danger" value="Login" />

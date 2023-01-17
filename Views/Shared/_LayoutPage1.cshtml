@@ -10,31 +10,13 @@
     <script src="https://kit.fontawesome.com/6f16284e08.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    @*<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <ul class="nav navbar-nav">
-                <li class="nav-item" style="padding: 7px;">
-                    <h1>FPTS Inventory status</h1>
-                </li>
-                <li class="nav-item" style="margin: auto; font-size: 1.5em;">
-                    <a class="nav-link" href="/Products/Index/1">Home</a>
-                </li>
-                <li class="nav-item" style="margin: auto; font-size: 1.5em;">
-                    <a class="nav-link" href="/Profile/Index">Profile</a>
-                </li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right" style="font-size: 1.5em;border: 1px solid black;">
-                @{Html.RenderAction("getUserInfo", "Account");}
-            </ul>
-        </nav>*@
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border: 1px solid red;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/Products/Index/1">FPTS Inventory</a>
+            <a class="navbar-brand fw-bold" style="margin-left: 2%;" href="/Products/Index/1">FPTS Inventory</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 4%;">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="/Products/Index/1">Home</a>
@@ -49,7 +31,6 @@
                 <div style="margin-right: 5%;">
                     @{Html.RenderAction("getUserInfo", "Account");}
                 </div>
-                
             </div>
         </div>
     </nav>
@@ -57,5 +38,106 @@
     <div>
         @RenderBody()
     </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-white text-muted">
+        <section class="bg-dark">
+            <div class="container text-center text-md-start">
+                <!-- Grid row -->
+                <div class="row pt-4">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            <i class="fas fa-gem me-3 text-secondary"></i>FPT Security Internship
+                        </h6>
+                        <p>
+                            An sample MVC web as an intern project using MVS ASP.NET, SQL server. Just a standard shoping website with customer and admin interfaces.
+                        </p>
+                        <section class="d-flex justify-content-center justify-content-center p-4 border-bottom">
+                            <div>
+                                <a href="https://www.facebook.com/MinhvuongCosin/" class="me-4 link-secondary">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="https://github.com/VuongDaneil" class="me-4 link-secondary">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="" class="me-4 link-secondary">
+                                    <i class="fab fa-google"></i>
+                                </a>
+                                <a href="" class="me-4 link-secondary">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="" class="me-4 link-secondary">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Grid column -->
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Products
+                        </h6>
+                        <p>
+                            <a href="/Products/Index/2" class="text-reset">Accessories</a>
+                        </p>
+                        <p>
+                            <a href="/Products/Index/3" class="text-reset">Desktop</a>
+                        </p>
+                        <p>
+                            <a href="/Products/Index/4" class="text-reset">IP Phone</a>
+                        </p>
+                        <p>
+                            <a href="/Products/Index/5" class="text-reset">Laptop</a>
+                        </p>
+                        <p>
+                            <a href="/Products/Index/6" class="text-reset">Monitor</a>
+                        </p>
+                        <p>
+                            <a href="/Products/Index/7" class="text-reset">Server</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Methods
+                        </h6>
+                        <p>
+                            <a href="#!" class="text-reset">Settings</a>
+                        </p>
+                        <p>
+                            <a href="/Cart/Index" class="text-reset">Orders</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">Help</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                        <p><i class="fas fa-home me-3 text-secondary"></i> Ha Noi, HN 70000, VN</p>
+                        <p>
+                            <i class="fas fa-envelope me-3 text-secondary"></i>
+                            minhvuong201101@yahoo.com
+                        </p>
+                        <p><i class="fas fa-phone me-3 text-secondary"></i> + 84 234 567 88</p>
+                        <p><i class="fas fa-print me-3 text-secondary"></i> + 84 234 567 89</p>
+                    </div>
+                    <!-- Grid column -->
+                </div>
+                <!-- Grid row -->
+            </div>
+        </section>
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025); height: 0.5em;">
+            © 2023 Copyright:
+            <a class="text-reset fw-bold m-auto" href="https://www.fpts.com.vn/">FPTS internship</a>
+        </div>
+    </footer>
 </body>
 </html>

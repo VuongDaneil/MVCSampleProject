@@ -3,23 +3,35 @@
 @{
     ViewBag.Title = "Details";
 }
-<section class="vh-100" style="background-color: #9de2ff;">
+<section class="vh-100" style="background-color: lightcyan;">
 
     <div class="container py-2 h-auto">
         <div class="d-flex align-items-lg-start justify-content-center h-100">
-            <div class="col col-md-9 col-lg-7 col-xl-5">
+            <div class="col col-md-9 col-lg-7 col-xl-7">
                 <div class="card" style="border-radius: 15px;">
                     <div class="card-body p-4">
                         <div class="d-flex text-black">
                             <div class="flex-shrink-0">
-                                <img src=@Model.Images
-                                     alt="https://cdn3d.iconscout.com/3d/premium/thumb/product-5806313-4863042.png" class="img-fluid"
-                                     style="width: 180px; border-radius: 10px;">
+                                @if (Model.Images != null)
+                                {
+                                    <img src=@Model.Images
+                                         alt="" class="img-fluid"
+                                         style="width: 180px; border-radius: 10px;">
+                                }
+                                else
+                                {
+                                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/product-5806313-4863042.png"
+                                         alt="" class="img-fluid"
+                                         style="width: 180px; border-radius: 10px;">
+                                }
+
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <h5 class="mb-1">@Html.DisplayFor(model => model.ProductName)</h5>
+                                <h4 class="mb-1">@Html.DisplayFor(model => model.ProductName)</h4>
+                                @*<h4 class="text-warning mb-1">@Html.DisplayFor(model => model.price.ToString("N0")) đ</h4>*@
+                                <h4 class="text-warning mb-1">@Model.price.ToString("N0") đ</h4>
                                 <p class="mb-2 pb-1" style="color: #2b2a2a;">@Html.DisplayFor(model => model.Category.CategoryName)</p>
-                                <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
+                                <div class="d-flex justify-content-sm-between rounded-3 p-2 mb-2"
                                      style="background-color: #efefef;">
                                     <div>
                                         <p class="small text-muted mb-1">In stock</p>
@@ -33,22 +45,36 @@
                                         <p class="small text-muted mb-1">Rating</p>
                                         <p class="mb-0">8.5</p>
                                     </div>
+                                    <div>
+                                        <p class="small text-muted mb-1">Seller</p>
+                                        @if (Model.CreatedBy != null)
+                                        {
+                                            @Html.ActionLink(
+                                            linkText: Model.CreatedBy,
+                                            actionName: "Index",
+                                            controllerName: "Products",
+                                            routeValues: new { },
+                                            htmlAttributes: new { @style = "font-weight: bold; overflow: hidden; text-overflow: ellipsis; mb-0" })
+                                        }
+                                        else
+                                        {
+                                            <p>AD</p>
+                                        }
+                                    </div>
                                 </div>
                                 <div class="d-flex pt-1">
                                     <a href="/Cart/AddItem?_productId=@Model.ProductID&_quantity=1"><button type="button" class="btn btn-outline-primary me-1 flex-grow-1">Add to cart</button></a>
-                                    <button type="button" class="btn btn-primary flex-grow-1">Buy</button>
+                                    <button type="button" class="btn btn-primary flex-grow-1">Buy Now</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            @* Description *@
-            <div>
-                <h3 class="text-warning mb-1 m-lg-1">@Html.DisplayFor(model => model.price) đ</h3>
-                <h4 class="text-muted mb-1 m-lg-1">Description</h4>
-                <p class="mb-0  mb-1 m-lg-1">@Html.DisplayFor(model => model.Description)</p>
+                @* Description *@
+                <div>
+                    <h4 class="text-muted mb-1 m-lg-1">Description</h4>
+                    <p class="mb-0  mb-1 m-lg-1">@Html.DisplayFor(model => model.Description)</p>
+                </div>
             </div>
         </div>
     </div>

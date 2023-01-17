@@ -6,6 +6,7 @@
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using System.ComponentModel.DataAnnotations;
 
 namespace MVCSampleProject.Models
 {
@@ -14,13 +15,18 @@ namespace MVCSampleProject.Models
     
     public partial class Product
     {
+        [Key]
         public int ProductID { get; set; }
+        [Required(ErrorMessage = "Product name must not be empty")]
         public string ProductName { get; set; }
+        [Required(ErrorMessage = "Must have image url")]
         public string Images { get; set; }
+        [Required(ErrorMessage = "Your description")]
         public string Description { get; set; }
         public Nullable<int> inStock { get; set; }
         public int CategoryID { get; set; }
         public double rate { get; set; }
+        [RegularExpression(@"[0-9]*\.?[0-9]+", ErrorMessage = "Price must be a Numbers only.")]
         public int price { get; set; }
         public string CreatedBy { get; set; }
     

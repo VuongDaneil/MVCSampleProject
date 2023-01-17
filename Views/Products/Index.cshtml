@@ -5,87 +5,134 @@
 
 <!DOCTYPE html>
 
-<html>
+<html style="height: 100%;">
 <head>
     <meta name="viewport" content="width=device-width" />
     <meta charset="utf-8" />
     <link href="@Url.Content("~/Style/IndexPage.css")" rel="stylesheet" type="text/css" />
 </head>
-<body>
-    <div class="main_container">
+<body style="background-color: lightcyan; height: 100%;">
+    <div class="main_container" style="height: 100%;">
         @* Category *@
-        <div class="Category">
-            <p class="category_btn">@Html.ActionLink("Home", "Index", new { id = 1 }, new { @class = "btn text-success" })</p>
+        <div class="Category pt-5 bg-dark" style="width: 15%; min-height: 100%; max-height: 200vh; border: 1px solid red;">
+            <p class="category_btn">@Html.ActionLink("All", "Index", new { id = 1 }, new { @class = "btn text-success fw-bold" })</p>
             <p class="category_btn">@Html.ActionLink("Accessories", "Index", new { id = 2 }, new { @class = "btn" })</p>
             <p class="category_btn">@Html.ActionLink("Desktop", "Index", new { id = 3 }, new { @class = "btn" })</p>
             <p class="category_btn">@Html.ActionLink("IP Phone", "Index", new { id = 4 }, new { @class = "btn" })</p>
             <p class="category_btn">@Html.ActionLink("Laptop", "Index", new { id = 5 }, new { @class = "btn" })</p>
             <p class="category_btn">@Html.ActionLink("Monitor", "Index", new { id = 6 }, new { @class = "btn" })</p>
             <p class="category_btn">@Html.ActionLink("Server", "Index", new { id = 7 }, new { @class = "btn" })</p>
-
         </div>
 
         @* item *@
-    <div class="container mt-5" style="width: 55%;">
-        <div class="row clearfix">
-            @foreach (var item in Model)
-            {
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card product_item">
-                        <div class="body">
-                            <div class="cp_img">
-                                @if (item.Images != null)
-                                {
-                                    <img src=@item.Images class="img-fluid">
-                                }
-                                else
-                                {
-                                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/product-5806313-4863042.png" class="img-fluid" alt="">
-                                }
-                                <div class="hover">
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+        <div class="container mt-5" style="width: 55%; height: 100%; border-right: 2px solid lightgrey;">
+            <div class="row clearfix h-100">
+
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-12 h-50">
+                        <div class="card product_item h-75" style="border: 1px solid red;">
+                            <div class="body">
+                                <div class="cp_img">
+                                    @if (item.Images != null)
+                                    {
+                                        <img src=@item.Images class="img-fluid">
+                                    }
+                                    else
+                                    {
+                                        <img src="https://cdn3d.iconscout.com/3d/premium/thumb/product-5806313-4863042.png" class="img-fluid" alt="">
+                                    }
+                                    <div class="hover">
+                                        <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                        <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="product_details">
-                                <h5 class="card-title">
-                                    @*@Html.DisplayFor(modelItem => item.ProductName)*@
-                                    @Html.ActionLink(
-                                    linkText: item.ProductName,
-                                    actionName: "Details",
-                                    controllerName: "Products",
-                                    routeValues: new { id = item.ProductID, area = "" },
-                                    htmlAttributes: new { @style = "font-weight: bold; overflow: hidden; text-overflow: ellipsis;", @class = "text-decoration-none" })
-                                </h5>
-                                <ul class="product_price list-unstyled">
-                                    <li class="new_price">@item.price</li>
-                                </ul>
+                                <div class="product_details">
+                                    <h5 class="card-title">
+                                        @*@Html.DisplayFor(modelItem => item.ProductName)*@
+                                        @Html.ActionLink(
+                                        linkText: item.ProductName,
+                                        actionName: "Details",
+                                        controllerName: "Products",
+                                        routeValues: new { id = item.ProductID, area = "" },
+                                        htmlAttributes: new { @style = "display: block; text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 3em; height: 3em; line-height: 1.5em; ", @class = "text-decoration-none" }
+
+                                        )
+                                    </h5>
+                                    <ul class="product_price list-unstyled">
+                                        <li class="new_price">@item.price.ToString("N0") đ</li>
+                                    </ul>
+                                    <h6 class="text-warning">Rating: @item.rate</h6>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
+
+                <ul class="pagination justify-content-center">
+                    @for (int i = 0; i < ViewBag.NoOfPages; i++)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="/Products/Index?page=@(i+1)">@(i+1)</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+        </div>
+
+        @* Right *@
+        <div style="margin-right: 50px;">
+            @* Search *@
+            <form class="d-flex flex-row align-items-baseline mt-5 w-25" action="/Products/Index/">
+                <input type="search"
+                       class="form-control w-auto"
+                       id="search"
+                       name="search"
+                       placeholder="Search..." 
+                       value= @ViewBag.SearchWords
+                       >
+
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <h5 class="fw-bold" style="text-shadow: -0.4px -0.4px 0 red, 0.4px -0.4px 0 red, -0.4px 0.4px 0 red, 0.4px 0.4px 0 red; ">Filter</h5>
+            @using (Html.BeginForm("Filter", "Products", FormMethod.Get))
+            {
+                string a = @ViewBag.SearchWords;
+                <ul style="list-style-type: none; padding: 0;">
+                    <li>
+                        <input type="radio" id="c2" name="category" value = 2 style=" display: inline-block; vertical-align: middle;" />
+                        <label for="c2" style=" display: inline-block; vertical-align: middle;">Accessories</label><br>
+                    </li>
+                    <li>
+                        <input type="radio" id="c3" name="category" value = 3 style=" display: inline-block; vertical-align: middle;"  />
+                        <label for="c3" style=" display: inline-block; vertical-align: middle;" >Desktop</label><br>
+                    </li>
+                    <li>
+                        <input type="radio" id="c4" name="category" value = 4 style=" display: inline-block; vertical-align: middle;"  />
+                        <label for="c4" style=" display: inline-block; vertical-align: middle;" >IP Phone</label><br>
+                    </li>
+                    <li>
+                        <input type="radio" id="c5" name="category" value = 5 style=" display: inline-block; vertical-align: middle;"  />
+                        <label for="c5" style=" display: inline-block; vertical-align: middle;" >Laptop</label><br>
+                    </li>
+                    <li>
+                        <input type="radio" id="c6" name="category" value = 6 style=" display: inline-block; vertical-align: middle;"  />
+                        <label for="c6" style=" display: inline-block; vertical-align: middle;" >Monitor</label><br>
+                    </li>
+                    <li>
+                        <input type="radio" id="c7" name="category" value = 7 style=" display: inline-block; vertical-align: middle;"  />
+                        <label for="c7" style=" display: inline-block; vertical-align: middle;" >Server</label><br>
+                    </li>
+                    <li style="visibility: hidden; height: 0px;">
+                        <input type="text" id="searchvalue" name="searchvalue" value = @a style=" display: inline-block; vertical-align: middle; visibility: hidden;"  readonly/>
+                    </li>
+                    <li>
+                        <button type="submit" class="btn bg-dark" style="border: 1px solid red; margin: 0;">Filter</button>
+                    </li>
+                </ul>
             }
         </div>
-        <ul class="pagination justify-content-center">
-            @for (int i = 0; i < ViewBag.NoOfPages; i++)
-            {
-                <li class="page-item">
-                    <a class="page-link" href="/Products/Index?page=@(i+1)">@(i+1)</a>
-                </li>
-            }
-        </ul>
-    </div>
-
-        @* Search *@
-        <form class="d-flex flex-row align-items-baseline mt-1 w-25" action="/Products/Index/">
-            <input type="search"
-                   class="form-control w-auto"
-                   id="search"
-                   name="search"
-                   placeholder="Search..." />
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
-
     </div>
 </body>
 </html>

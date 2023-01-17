@@ -167,11 +167,13 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-3.6.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.6.1.js" />
-    <Content Include="Scripts\jquery-3.6.1.min.js" />
-    <Content Include="Scripts\jquery-3.6.1.slim.js" />
-    <Content Include="Scripts\jquery-3.6.1.slim.min.js" />
+    <None Include="Scripts\jquery-3.6.3.intellisense.js" />
+    <Content Include="Scripts\jquery-3.6.3.js" />
+    <Content Include="Scripts\jquery-3.6.3.min.js" />
+    <Content Include="Scripts\jquery-3.6.3.slim.js" />
+    <Content Include="Scripts\jquery-3.6.3.slim.min.js" />
+    <Content Include="Scripts\jquery-3.6.3.slim.min.map" />
+    <Content Include="Scripts\jquery-3.6.3.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -183,6 +185,7 @@
     <Content Include="Style\EditPage.css" />
     <Content Include="Style\Index.css" />
     <Content Include="Style\IndexPage.css" />
+    <Content Include="Style\payment.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +221,7 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>ProductsFPTSEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\logininfo.cs" />
     <Compile Include="Models\Product.cs">
       <DependentUpon>ProductsFPTSEntities.tt</DependentUpon>
     </Compile>
@@ -291,12 +295,12 @@
     <Content Include="Views\Shared\_LayoutPage1.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
-    <Content Include="Scripts\jquery-3.6.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.6.1.min.map" />
     <Content Include="Views\Account\Blocked.cshtml" />
     <Content Include="Views\Products\Details.cshtml" />
     <Content Include="Views\Shared\_userPartialPage1.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Profile\EditProfile.cshtml" />
+    <Content Include="Views\Cart\Checkout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

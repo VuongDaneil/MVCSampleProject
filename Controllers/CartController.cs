@@ -68,6 +68,17 @@ namespace MVCSampleProject.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Checkout()
+        {
+            var cart = Session[cartSession];
+            var list = new List<cartitem>();
+            if (cart != null)
+            {
+                list = (List<cartitem>)cart;
+            }
+            return View(list);
+        }
+
         public Product getProductDetail(int id)
         {
             Product product = db.Products.Find(id);

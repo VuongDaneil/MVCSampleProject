@@ -1,4 +1,5 @@
-﻿@{
+﻿@model MVCSampleProject.Models.Account
+@{
     ViewBag.Title = "Profile";
 }
 
@@ -11,59 +12,105 @@
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
 </head>
 
-@if (Model != null)
-{
-    <body>
-        <div class="container-fluid">
-            <table class="table w-25 m-auto">
-                <tr>
-                    <td>User ID</td>
-                    @if (Model.UserID == 0)
-                    {
-                        <td class="fw-bold">External User</td>
-                    }
-                    else
-                    {
-                        <td class="fw-bold">@Model.UserID</td>
-                    }
-                    
-                </tr>
-                <tr>
-                    <td>User Name</td>
-                    <td class="fw-bold">@Model.UserName</td>
-                </tr>
-                <tr>
-                    <td>Phone number</td>
-                    <td class="fw-bold">@Model.phone</td>
-                </tr>
-                <tr>
-                    <td>Email</td>
-                    <td class="fw-bold">@Model.email</td>
-                </tr>
-                <tr>
-                    <td>Role</td>
-                    @if (Model.UserID == 0)
-                    {
-                        <td class="fw-bold">Customer</td>
-                    }
-                    else
-                    {
-                        <td class="fw-bold">@Model.UserRole.RoleName</td>
-                    }
-                </tr>
-                <tr class="form-group">
-                    <td colspan="2" style="text-align: center;">
-                        @Html.ActionLink("Log out", "Logout", "Account", new { area = "" }, new { @class = "btn btn-danger btn-sm glyphicon glyphicon-remove" })
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </body>
+<body style="background-color: lightcyan;">
+    @if (Model != null)
+    {
+        <section >
+            <div class="container py-5">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card mb-4">
+                            <div class="card-body text-center">
+                                <img src=@Model.Avatar alt="avatar"
+                                     class="rounded-circle img-fluid" style="width: 12em; height: 12em; object-fit: contain; border: 1px solid grey;">
+                                <h5 class="my-2">@Model.UserName</h5>
+                                <p class="text-muted mb-3">@Model.UserRole.RoleName</p>
+                                @*<p class="text-muted mb-4">Bay Area, San Francisco, CA</p>*@
+                                <div class="d-flex justify-content-center mb-2">
+                                    @Html.ActionLink("Log out", "Logout", "Account", new { area = "" }, new { @class = "btn btn-danger glyphicon glyphicon-remove" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4 mb-lg-0">
+                            <div class="card-body p-0">
+                                <ul class="list-group list-group-flush rounded-3">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                        <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
+                                        <p class="mb-0">None</p>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                        <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                                        <p class="mb-0">None</p>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                        <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                                        <p class="mb-0">None</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Full Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">@Model.FullName</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Email</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">@Model.email</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Home phone</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">@Model.phone</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Mobile</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">@Model.phone</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mb-4">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Address</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">@Model.ShippingAddress</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    @Html.ActionLink("Edit infomations", "EditProfile", "Profile", new { area = "", id = Model.UserID }, new { @class = "btn btn-outline-primary ms-1 col-sm-3 glyphicon glyphicon-remove" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-}
-else
-{
-    <h3 style="text-align: center;">You not loged in yet! <a href="/Account/Login">Login now!</a></h3>
-}
-
+    }
+    else
+    {
+        <h3 style="text-align: center;">You not loged in yet! <a href="/Account/Login">Login now!</a></h3>
+    }
+</body>
 </html>

@@ -11,11 +11,14 @@
           </Key>
           <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="UserPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="RoleID" Type="int" Nullable="false" />
-          <Property Name="isBlock" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Avatar" Type="varchar" MaxLength="200" />
           <Property Name="email" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="phone" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="ShippingAddress" Type="nvarchar" MaxLength="300" />
+          <Property Name="UserPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="isBlock" Type="int" />
         </EntityType>
         <EntityType Name="cart">
           <Key>
@@ -48,11 +51,11 @@
           <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Images" Type="varchar" MaxLength="200" />
+          <Property Name="price" Type="int" Nullable="false" />
+          <Property Name="rate" Type="float" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="200" />
           <Property Name="inStock" Type="int" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
-          <Property Name="rate" Type="float" Nullable="false" />
-          <Property Name="price" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="UserRole">
@@ -147,9 +150,12 @@
           <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RoleID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="UserRole" Relationship="Self.user_role" FromRole="Account" ToRole="UserRole" />
-          <Property Name="isBlock" Type="Int32" Nullable="false" />
+          <Property Name="isBlock" Type="Int32" />
           <Property Name="email" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="phone" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ShippingAddress" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -284,6 +290,9 @@
           <EntitySetMapping Name="Accounts">
             <EntityTypeMapping TypeName="ProductsFPTSModel.Account">
               <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
                 <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="isBlock" ColumnName="isBlock" />

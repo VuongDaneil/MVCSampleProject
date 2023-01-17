@@ -14,6 +14,9 @@
     <title>SignUp</title>
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
     <script src="https://kit.fontawesome.com/6f16284e08.js" crossorigin="anonymous"></script>
+    <script src="~/Scripts/jquery-3.6.3.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 </head>
 <body>
     <div class="account_form" >
@@ -26,16 +29,34 @@
             <div class="form_group">
                 @* Username *@
                 <div class="col-xl-3 m-auto mt-1">
-                    @Html.LabelFor(m => m.UserName)
+                    <div class="d-flex">
+                        @Html.LabelFor(m => m.UserName, htmlAttributes: new { @class = "fw-bold" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "badge badge-success text-danger" })
+                    </div>
                     @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control", @placeholder = "Username" })
-                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "badge badge-danger" })
+                    
+                </div>
+
+                @* Full Name *@
+                <div class="col-xl-3 m-auto mt-1">
+                    @Html.LabelFor(m => m.FullName, htmlAttributes: new { @class = "fw-bold" })
+                    @Html.TextBoxFor(m => m.FullName, "", new { @class = "form-control", @placeholder = "Full name" })
+                    @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "badge badge-danger text-danger" })
+                </div>
+
+                <div class="col-xl-3 m-auto mt-1">
+                    @Html.LabelFor(m => m.Avatar, htmlAttributes: new { @class = "fw-bold" })
+                    @Html.TextBoxFor(m => m.Avatar, "", new { @class = "form-control", @placeholder = "Avatar url" })
+                    @Html.ValidationMessageFor(m => m.Avatar, "", new { @class = "badge badge-danger text-danger" })
                 </div>
 
                 @* Password *@
                 <div class="col-xl-3 m-auto mt-1">
-                    @Html.LabelFor(m => m.UserPassword)
+                    <div class="d-flex">
+                        <label class="fw-bold">Password</label>
+                        @Html.ValidationMessageFor(m => m.UserPassword, "", new { @class = "badge badge-danger text-danger" })
+                    </div>
                     @Html.PasswordFor(m => m.UserPassword, new { @class = "form-control", @placeholder = "Password" })
-                    @Html.ValidationMessageFor(m => m.UserPassword, "", new { @class = "badge badge-danger" })
                 </div>
 
 
@@ -47,22 +68,33 @@
                 </div>*@
 
                 <div class="col-xl-3 m-auto mt-1">
-                    @Html.LabelFor(m => m.email)
+                    <div class="d-flex">
+                        <label class="fw-bold">Email</label>
+                        @Html.ValidationMessageFor(m=>m.email, "", new { @class = "badge badge-danger text-danger"})
+                    </div>
                     @Html.TextBoxFor(m => m.email, "", new { @class = "form-control", @placeholder = "Email" })
-                    @Html.ValidationMessageFor(m => m.email, "", new { @class = "badge badge-danger" })
                 </div>
 
                 <div class="col-xl-3 m-auto mt-1">
-                    @Html.LabelFor(m => m.phone)
+                    <div class="d-flex">
+                        <label class="fw-bold">Phone number</label>
+                        @Html.ValidationMessageFor(m => m.phone, "", new { @class = "badge badge-danger text-danger" })
+                    </div>
                     @Html.TextBoxFor(m => m.phone, "", new { @type = "number", @class = "form-control", @placeholder = "Phone number" })
-                    @Html.ValidationMessageFor(m => m.phone, "", new { @class = "badge badge-danger" })
+                </div>
+
+                @* Full Name *@
+                <div class="col-xl-3 m-auto mt-1">
+                    @Html.LabelFor(m => m.ShippingAddress, htmlAttributes: new { @class = "fw-bold" })
+                    @Html.TextBoxFor(m => m.ShippingAddress, "", new { @class = "form-control", @placeholder = "Address" })
+                    @Html.ValidationMessageFor(m => m.ShippingAddress, "", new { @class = "badge badge-danger text-danger" })
                 </div>
 
                 <div class="col-xl-3 m-auto mt-1">
-                    @Html.LabelFor(model => model.RoleID, "RoleName", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.RoleID, "Role", htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
                     <div class="col-md-10">
                         @Html.DropDownList("RoleID", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.RoleID, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.RoleID, "", new { @class = "text-danger text-danger" })
                     </div>
                 </div>
 

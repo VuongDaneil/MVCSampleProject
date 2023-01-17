@@ -15,10 +15,12 @@
 @if (Model != null)
 {
     <body>
-        <div class="container-fluid">
-            <table class="table w-25 m-auto">
+        <div class="container-fluid" style="text-align: center;">
+            <img src=@Model.Avatar alt="avatar"
+                 class="rounded-circle img-fluid m-auto" style="width: 12em; height: 12em; object-fit: contain; border: 1px solid grey; text-align: center;">
+            <table class="table w-25 m-auto" style="text-align: left;">
                 <tr>
-                    <td>User ID</td>
+                    <td class="w-50">User ID</td>
                     <td class="fw-bold">@Model.UserID</td>
                 </tr>
                 <tr>

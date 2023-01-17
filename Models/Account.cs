@@ -6,6 +6,7 @@
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using System.ComponentModel.DataAnnotations;
 
 namespace MVCSampleProject.Models
 {
@@ -14,13 +15,28 @@ namespace MVCSampleProject.Models
     
     public partial class Account
     {
+        [Key]
         public int UserID { get; set; }
+        [MinLength(6, ErrorMessage = "Username must at least 6 characters")]
+        [Required(ErrorMessage = "User name cannot be empty")]
+        [RegularExpression(@"^[A-Xa-z 0-9]*$", ErrorMessage = "Your username cannot contain special characters")]
         public string UserName { get; set; }
+        [MinLength(6, ErrorMessage = "Password must at least 6 characters")]
+        [Required(ErrorMessage = "Password cannot be empty")]
         public string UserPassword { get; set; }
         public int RoleID { get; set; }
-        public int isBlock { get; set; }
+        public Nullable<int> isBlock { get; set; }
+        [Required(ErrorMessage = "Please input your valid email")]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string email { get; set; }
+        [Required(ErrorMessage = "Please input your phone number")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
         public string phone { get; set; }
+        public string Avatar { get; set; }
+        public string FullName { get; set; }
+        public string ShippingAddress { get; set; }
     
         public virtual UserRole UserRole { get; set; }
     }

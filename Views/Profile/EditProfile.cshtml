@@ -1,0 +1,198 @@
+﻿@model MVCSampleProject.Models.Account
+
+@{
+    ViewBag.Title = "EditProfile";
+}
+
+<h2 style="text-align: center;">EditProfile</h2>
+
+<div>
+    <section>
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <img src=@Model.Avatar alt="avatar"
+                                 class="rounded-circle img-fluid" style="width: 12em; height: 12em; object-fit: contain; border: 1px solid grey;">
+                            <h5 class="my-2">@Model.UserName</h5>
+                            <p class="text-muted mb-3">@Model.UserRole.RoleName</p>
+                            @*<p class="text-muted mb-4">Bay Area, San Francisco, CA</p>*@
+                        </div>
+                    </div>
+                    <div class="card mb-4 mb-lg-0">
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush rounded-3">
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
+                                    <p class="mb-0">None</p>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                                    <p class="mb-0">None</p>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                                    <p class="mb-0">None</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8" >
+                    <div class="card mb-2">
+                        @if (Model.RoleID == 3 || Model.RoleID == 4)
+                        {
+                            using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.UserID)
+                                @Html.HiddenFor(model => model.RoleID)
+                                @Html.HiddenFor(model => model.UserName)
+                                @Html.HiddenFor(model => model.UserPassword)
+                                @Html.HiddenFor(model => model.isBlock)
+                                @Html.HiddenFor(model => model.email)
+                                @Html.HiddenFor(model => model.FullName)
+                                @Html.HiddenFor(model => model.Avatar)
+                                <div class="card-body form-group">
+                                    <div class="row form-group">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Full Name</p>
+                                        </div>
+                                        <div class="col-sm-9 form-group">
+                                            <p class="text-muted mb-0">@Model.FullName</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row form-group">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Email</p>
+                                        </div>
+                                        <div class="col-sm-9 form-group">
+                                            <p class="text-muted mb-0">@Model.email</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row form-group">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Home phone</p>
+                                        </div>
+                                        <div class="col-sm-9 form-group">
+                                            <p class="text-muted mb-0">@Model.phone</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row form-group">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Mobile</p>
+                                        </div>
+                                        <div class="col-sm-9 form-group">
+                                            @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row mb-4 form-group">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Address</p>
+                                        </div>
+                                        <div class="col-sm-9 form-group">
+                                            @Html.EditorFor(model => model.ShippingAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ShippingAddress, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="text-align: center;">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Save" class="btn btn-outline-primary ms-1 col-sm-3 glyphicon glyphicon-remove" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                        else
+                        {
+                            using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.UserID)
+                                @Html.HiddenFor(model => model.RoleID)
+                                @Html.HiddenFor(model => model.UserName)
+                                @Html.HiddenFor(model => model.UserPassword)
+                                @Html.HiddenFor(model => model.isBlock)
+                                <div class="card-body form-group">
+                                    <div class="row form-group">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Full Name</p>
+                                        </div>
+                                        <div class="col-sm-9 form-group">
+                                            @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row mb-4 form-group">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Avatar</p>
+                                        </div>
+                                        <div class="col-sm-9 form-group">
+                                            @Html.EditorFor(model => model.Avatar, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Avatar, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row form-group">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Email</p>
+                                        </div>
+                                        <div class="col-sm-9 form-group">
+                                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row form-group">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Home phone</p>
+                                        </div>
+                                        <div class="col-sm-9 form-group">
+                                            <p class="text-muted mb-0">@Model.phone</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row form-group">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Mobile</p>
+                                        </div>
+                                        <div class="col-sm-9 form-group">
+                                            @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row mb-4 form-group">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Address</p>
+                                        </div>
+                                        <div class="col-sm-9 form-group">
+                                            @Html.EditorFor(model => model.ShippingAddress, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ShippingAddress, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="text-align: center;">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Save" class="btn btn-outline-primary ms-1 col-sm-3 glyphicon glyphicon-remove" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
